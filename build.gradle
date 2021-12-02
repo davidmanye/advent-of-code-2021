@@ -12,6 +12,9 @@ repositories {
 dependencies {
     implementation group: 'commons-io', name: 'commons-io', version: '2.11.0'
     testImplementation group: 'org.assertj', name: 'assertj-core', version: '3.21.0'
+    implementation group: 'com.google.guava', name: 'guava', version: '31.0.1-jre'
+    compileOnly 'org.projectlombok:lombok:1.18.22'
+    annotationProcessor 'org.projectlombok:lombok:1.18.22'
 
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'

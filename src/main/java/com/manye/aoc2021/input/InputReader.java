@@ -1,5 +1,6 @@
 package com.manye.aoc2021.input;
 
+import com.manye.aoc2021.model.Command;
 import com.manye.aoc2021.utils.StreamUtils;
 
 import org.apache.commons.io.IOUtils;
@@ -18,7 +19,13 @@ public final class InputReader {
             .collect(Collectors.toList());
     }
 
-    private static Stream<String> readLines(String resourcePath) {
+    public static List<Command> reasAsCommands(String resourcePath) {
+        return readLines(resourcePath)
+            .map(InputParser::parseCommand)
+            .collect(Collectors.toList());
+    }
+
+    public static Stream<String> readLines(String resourcePath) {
         return StreamUtils.fromIterator(IOUtils.lineIterator(getInputStream(resourcePath), StandardCharsets.UTF_8));
     }
 
