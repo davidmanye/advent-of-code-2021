@@ -1,6 +1,7 @@
 package com.manye.aoc2021.input;
 
 import com.manye.aoc2021.model.Command;
+import com.manye.aoc2021.model.DiagnosticReport;
 import com.manye.aoc2021.utils.StreamUtils;
 
 import org.apache.commons.io.IOUtils;
@@ -31,6 +32,13 @@ public final class InputReader {
 
     public static InputStream getInputStream(String resourcePath) {
         return InputReader.class.getResourceAsStream(resourcePath);
+    }
+
+    public static DiagnosticReport readDiagnosticReport(String resourcePath) {
+        var table = readLines(resourcePath)
+            .map(s -> s.chars().map(Character::getNumericValue).toArray())
+            .toArray(int[][]::new);
+        return new DiagnosticReport(table);
     }
 
 }
