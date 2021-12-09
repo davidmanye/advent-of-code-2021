@@ -25,4 +25,22 @@ class BinaryRateCalculatorTest {
 
         assertThat(gammaRate.getAsInt()).isEqualTo(9);
     }
+
+    @Test
+    void calculateOxygenGeneratorRateWithDiagnosticReport() {
+        var diagnosticReport = InputReader.readDiagnosticReport("/Day03/example.txt");
+
+        var rate = BinaryRateCalculator.getOxygenGenerator(diagnosticReport);
+
+        assertThat(rate.getAsInt()).isEqualTo(23);
+    }
+
+    @Test
+    void calculateCO2ScrubberRateWithDiagnosticReport() {
+        var diagnosticReport = InputReader.readDiagnosticReport("/Day03/example.txt");
+
+        var rate = BinaryRateCalculator.getC02Scrubber(diagnosticReport);
+
+        assertThat(rate.getAsInt()).isEqualTo(10);
+    }
 }

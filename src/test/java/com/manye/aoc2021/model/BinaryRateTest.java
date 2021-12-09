@@ -10,14 +10,14 @@ class BinaryRateTest {
 
     @Test
     void getAsBinary() {
-        var gammaRate = new BinaryRate(List.of(1, 0, 1, 1, 0));
+        var gammaRate = new BinaryRate(List.of(1, 0, 1, 1, 0), BinaryRate.Type.GAMMA);
 
         assertThat(gammaRate.getAsBinary()).isEqualTo("10110");
     }
 
     @Test
     void getAsInt() {
-        var gammaRate = new BinaryRate(List.of(1, 0, 1, 1, 0));
+        var gammaRate = new BinaryRate(List.of(1, 0, 1, 1, 0), BinaryRate.Type.EPSILON);
 
         assertThat(gammaRate.getAsInt()).isEqualTo(22);
     }

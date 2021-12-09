@@ -18,4 +18,14 @@ public class Day03Test {
 
         assertThat(result).isEqualTo(198);
     }
+
+    @Test
+    @DisplayName("What is the life support rating of the submarine?")
+    void part2() {
+        var diagnosticReport = InputReader.readDiagnosticReport("/Day03/example.txt");
+
+        var result = Day03.part2(diagnosticReport);
+
+        assertThat(result).isEqualTo(230);
+    }
 }

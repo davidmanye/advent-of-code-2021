@@ -6,10 +6,22 @@ import java.util.List;
 
 public class BinaryRate {
 
-    private final List<Integer> binary;
+    public static final Integer ZERO = 0;
+    public static final Integer ONE = 1;
 
-    public BinaryRate(List<Integer> binary) {
+    enum Type {
+        GAMMA,
+        EPSILON,
+        OXYGEN_GENERATOR,
+        CO2_SCRUBBER
+    }
+
+    private final List<Integer> binary;
+    private final Type type;
+
+    public BinaryRate(List<Integer> binary, Type type) {
         this.binary = binary;
+        this.type = type;
     }
 
     public String getAsBinary() {
