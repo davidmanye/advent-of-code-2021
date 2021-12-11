@@ -4,6 +4,8 @@ import static java.util.function.Predicate.not;
 
 import com.manye.aoc2021.model.Command;
 import com.manye.aoc2021.model.bingo.BingoBoard;
+import com.manye.aoc2021.model.core.Coordinate;
+import com.manye.aoc2021.model.core.LineSegment;
 
 import java.util.Arrays;
 
@@ -23,5 +25,13 @@ public final class InputParser {
         return new BingoBoard(board);
     }
 
+    public static LineSegment parseLineSegment(String line) {
+        final var split = line.split("->");
+        return new LineSegment(parseCoordinate(split[0]), parseCoordinate(split[1]));
+    }
 
+    public static Coordinate parseCoordinate(String coordinates) {
+        final var split = coordinates.trim().split(",");
+        return new Coordinate(Integer.parseInt(split[0]), Integer.parseInt(split[1]));
+    }
 }

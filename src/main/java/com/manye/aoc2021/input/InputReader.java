@@ -6,6 +6,7 @@ import com.manye.aoc2021.model.Command;
 import com.manye.aoc2021.model.DiagnosticReport;
 import com.manye.aoc2021.model.bingo.BingoBoard;
 import com.manye.aoc2021.model.bingo.BingoSubsystem;
+import com.manye.aoc2021.model.core.LineSegment;
 import com.manye.aoc2021.utils.StreamUtils;
 
 import org.apache.commons.io.IOUtils;
@@ -17,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public final class InputReader {
@@ -56,6 +58,12 @@ public final class InputReader {
             boards.add(InputParser.parseBingoBoard(square));
         }
         return new BingoSubsystem(drawNumbers, boards);
+    }
+
+    public static List<LineSegment> readLineSegments(String resourcePath) {
+        return readLines(resourcePath)
+            .map(InputParser::parseLineSegment)
+            .collect(Collectors.toList());
     }
 
     public static InputStream getInputStream(String resourcePath) {
