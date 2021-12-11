@@ -25,7 +25,14 @@ public final class InputReader {
 
     private static final Pattern DIGIT_PATTERN = Pattern.compile("[\\d]+");
 
-    public static List<Integer> readAsInt(String resourcePath) {
+    public static int[] readAsIntArray(String resourcePath) {
+        return readLines(resourcePath)
+            .flatMap(line -> Arrays.stream(line.split(",")))
+            .mapToInt(Integer::parseInt)
+            .toArray();
+    }
+
+    public static List<Integer> readAsIntList(String resourcePath) {
         return readLines(resourcePath)
             .map(Integer::parseInt)
             .collect(toList());

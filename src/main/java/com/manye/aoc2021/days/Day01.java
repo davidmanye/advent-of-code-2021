@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 public class Day01 {
 
     public static void main(String[] args) {
-        var measurements = InputReader.readAsInt("/Day01/input.txt");
+        var measurements = InputReader.readAsIntList("/Day01/input.txt");
         System.out.println("Part 1: " + result1(measurements));
         System.out.println("Part 1: " + result2(measurements));
     }
