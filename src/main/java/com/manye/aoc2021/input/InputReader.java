@@ -1,33 +1,61 @@
 package com.manye.aoc2021.input;
 
+import static java.util.stream.Collectors.toList;
+
 import com.manye.aoc2021.model.Command;
 import com.manye.aoc2021.model.DiagnosticReport;
+import com.manye.aoc2021.model.bingo.BingoBoard;
+import com.manye.aoc2021.model.bingo.BingoSubsystem;
 import com.manye.aoc2021.utils.StreamUtils;
 
 import org.apache.commons.io.IOUtils;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 public final class InputReader {
 
+    private static final Pattern DIGIT_PATTERN = Pattern.compile("[\\d]+");
+
     public static List<Integer> readAsInt(String resourcePath) {
         return readLines(resourcePath)
             .map(Integer::parseInt)
-            .collect(Collectors.toList());
+            .collect(toList());
     }
 
     public static List<Command> reasAsCommands(String resourcePath) {
         return readLines(resourcePath)
             .map(InputParser::parseCommand)
-            .collect(Collectors.toList());
+            .collect(toList());
     }
 
     public static Stream<String> readLines(String resourcePath) {
         return StreamUtils.fromIterator(IOUtils.lineIterator(getInputStream(resourcePath), StandardCharsets.UTF_8));
+    }
+
+    public static String readAll(String resourcePath) {
+        try {
+            return IOUtils.toString(InputReader.class.getResourceAsStream(resourcePath), StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static BingoSubsystem readBingo(String resourcePath) {
+        final var groups = readAll(resourcePath).split("\\n\\n");
+        final var drawNumbers = Arrays.stream(groups[0].split(",")).map(Integer::parseInt).collect(toList());
+        final var boards = new ArrayList<BingoBoard>();
+        for (int g = 1; g < groups.length; ++g) {
+            final String square = groups[g];
+            boards.add(InputParser.parseBingoBoard(square));
+        }
+        return new BingoSubsystem(drawNumbers, boards);
     }
 
     public static InputStream getInputStream(String resourcePath) {
