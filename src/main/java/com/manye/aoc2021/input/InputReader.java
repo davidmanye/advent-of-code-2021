@@ -39,6 +39,18 @@ public final class InputReader {
             .collect(toList());
     }
 
+    public static int[][] readAsIntMatrix(String resourcePath) {
+        return readLines(resourcePath)
+            .map(line -> Stream.of(line.split("")).mapToInt(Integer::parseInt).toArray())
+            .toArray(int[][]::new);
+    }
+
+    public static Integer[][] readAsIntegerMatrix(String resourcePath) {
+        return readLines(resourcePath)
+            .map(line -> Stream.of(line.split("")).map(Integer::valueOf).toArray(Integer[]::new))
+            .toArray(Integer[][]::new);
+    }
+
     public static List<Command> reasAsCommands(String resourcePath) {
         return readLines(resourcePath)
             .map(InputParser::parseCommand)
@@ -90,5 +102,7 @@ public final class InputReader {
             .map(InputParser::parseDisplayNote)
             .collect(Collectors.toList());
     }
+
+
 
 }
