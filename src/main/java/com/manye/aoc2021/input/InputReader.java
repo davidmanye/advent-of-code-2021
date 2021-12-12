@@ -7,6 +7,7 @@ import com.manye.aoc2021.model.DiagnosticReport;
 import com.manye.aoc2021.model.bingo.BingoBoard;
 import com.manye.aoc2021.model.bingo.BingoSubsystem;
 import com.manye.aoc2021.model.core.LineSegment;
+import com.manye.aoc2021.model.display.DisplayNote;
 import com.manye.aoc2021.utils.StreamUtils;
 
 import org.apache.commons.io.IOUtils;
@@ -82,6 +83,12 @@ public final class InputReader {
             .map(s -> s.chars().map(Character::getNumericValue).toArray())
             .toArray(int[][]::new);
         return new DiagnosticReport(table);
+    }
+
+    public static List<DisplayNote> readDisplayNotes(String resourcePath) {
+        return readLines(resourcePath)
+            .map(InputParser::parseDisplayNote)
+            .collect(Collectors.toList());
     }
 
 }

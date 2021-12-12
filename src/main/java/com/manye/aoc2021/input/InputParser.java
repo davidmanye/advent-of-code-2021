@@ -6,8 +6,11 @@ import com.manye.aoc2021.model.Command;
 import com.manye.aoc2021.model.bingo.BingoBoard;
 import com.manye.aoc2021.model.core.Coordinate;
 import com.manye.aoc2021.model.core.LineSegment;
+import com.manye.aoc2021.model.display.DisplayNote;
 
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public final class InputParser {
 
@@ -33,5 +36,17 @@ public final class InputParser {
     public static Coordinate parseCoordinate(String coordinates) {
         final var split = coordinates.trim().split(",");
         return new Coordinate(Integer.parseInt(split[0]), Integer.parseInt(split[1]));
+    }
+
+    public static DisplayNote parseDisplayNote(String line) {
+        final var split = line.split("\\|");
+        return new DisplayNote(parseStringList(split[0]), parseStringList(split[1]));
+    }
+
+    private static List<String> parseStringList(String part) {
+        return Arrays.stream(part.split(" "))
+            .map(String::trim)
+            .filter(not(String::isBlank))
+            .collect(Collectors.toList());
     }
 }
