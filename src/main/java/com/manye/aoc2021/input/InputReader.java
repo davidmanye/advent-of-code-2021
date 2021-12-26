@@ -18,6 +18,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -49,6 +50,12 @@ public final class InputReader {
         return readLines(resourcePath)
             .map(line -> Stream.of(line.split("")).map(Integer::valueOf).toArray(Integer[]::new))
             .toArray(Integer[][]::new);
+    }
+
+    public static AtomicInteger[][] readAsAtomicIntegerMatrix(String resourcePath) {
+        return readLines(resourcePath)
+            .map(line -> Stream.of(line.split("")).map(Integer::valueOf).map(AtomicInteger::new).toArray(AtomicInteger[]::new))
+            .toArray(AtomicInteger[][]::new);
     }
 
     public static List<Command> reasAsCommands(String resourcePath) {

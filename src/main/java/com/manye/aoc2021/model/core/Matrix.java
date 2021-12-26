@@ -9,6 +9,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -32,6 +33,21 @@ public class Matrix<T> {
         return getAdjacentValues(coordinate.getX(), coordinate.getY());
     }
 
+    public List<Entry> getAllAdjacent(Coordinate coordinate) {
+        return Stream.of(
+                getEntryIfExists(coordinate.top()),
+                getEntryIfExists(coordinate.topRight()),
+                getEntryIfExists(coordinate.right()),
+                getEntryIfExists(coordinate.bottomRight()),
+                getEntryIfExists(coordinate.bottom()),
+                getEntryIfExists(coordinate.bottomLeft()),
+                getEntryIfExists(coordinate.left()),
+                getEntryIfExists(coordinate.topLeft())
+            )
+            .flatMap(Optional::stream)
+            .collect(Collectors.toList());
+    }
+
     /**
      * Not include diagonal.
      */
@@ -42,8 +58,7 @@ public class Matrix<T> {
                 getEntryIfExists(x, y + 1),
                 getEntryIfExists(x, y - 1)
             )
-            .filter(Optional::isPresent)
-            .map(Optional::get)
+            .flatMap(Optional::stream)
             .collect(Collectors.toList());
     }
 
@@ -88,11 +103,8 @@ public class Matrix<T> {
         return matrix[y][x];
     }
 
-    public Optional<T> getValueIfExists(int x, int y) {
-        if (isInBound(x, y)) {
-            return Optional.of(matrix[y][x]);
-        }
-        return Optional.empty();
+    public boolean isInBound(Coordinate coordinate) {
+        return isInBound(coordinate.getX(), coordinate.getY());
     }
 
     public boolean isInBound(int x, int y) {
@@ -102,12 +114,28 @@ public class Matrix<T> {
         return false;
     }
 
+    public Optional<Entry> getEntryIfExists(Coordinate coordinate) {
+        if (isInBound(coordinate)) {
+            return Optional.of(new Entry(coordinate, getValue(coordinate)));
+        }
+        return Optional.empty();
+    }
+
     public Optional<Entry> getEntryIfExists(int x, int y) {
         if (isInBound(x, y)) {
             final var coord = Coordinate.of(x, y);
             return Optional.of(new Entry(coord, getValue(coord)));
         }
         return Optional.empty();
+    }
+
+    public T set(Coordinate coordinate, Function<T, T> function) {
+        if (isInBound(coordinate)) {
+            final var currentValue = this.matrix[coordinate.getY()][coordinate.getX()];
+            matrix[coordinate.getY()][coordinate.getX()] = function.apply(currentValue);
+            return matrix[coordinate.getY()][coordinate.getX()];
+        }
+        return null;
     }
 
     public Stream<Entry> stream() {
@@ -120,4 +148,22 @@ public class Matrix<T> {
             }));
     }
 
+    public Stream<Coordinate> streamCoordinates() {
+        return IntStream
+            .range(0, matrix.length)
+            .boxed()
+            .flatMap(y -> IntStream.range(0, matrix[y].length).mapToObj(x -> Coordinate.of(x, y)));
+    }
+
+    @Override
+    public String toString() {
+        final var builder = new StringBuilder();
+        for (T[] ts : matrix) {
+            for (T t : ts) {
+                builder.append(t);
+            }
+            builder.append("\n");
+        }
+        return builder.toString();
+    }
 }
