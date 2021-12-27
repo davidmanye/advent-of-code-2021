@@ -66,6 +66,56 @@ class MatrixTest {
     }
 
     @Test
+    void splitHorizontally() {
+        final var vals = InputReader.readAsStringMatrix("/example/point_horitzontal_matrix.txt");
+        final Matrix<String> matrix = new Matrix<>(vals);
+
+        final var twoMatrix = matrix.splitHorizontallyAt(7);
+
+        assertThat(twoMatrix._1.toString())
+            .isEqualTo("...#..#..#.\n"
+                + "....#......\n"
+                + "...........\n"
+                + "#..........\n"
+                + "...#....#.#\n"
+                + "...........\n"
+                + "...........\n");
+        assertThat(twoMatrix._2.toString())
+            .isEqualTo("...........\n"
+                + "...........\n"
+                + ".#....#.##.\n"
+                + "....#......\n"
+                + "......#...#\n"
+                + "#..........\n"
+                + "#.#........\n");
+    }
+
+    @Test
+    void splitVerticallyAt() {
+        final var vals = InputReader.readAsStringMatrix("/example/point_vertical_matrix.txt");
+        final Matrix<String> matrix = new Matrix<>(vals);
+
+        final var twoMatrix = matrix.splitVerticallyAt(5);
+
+        assertThat(twoMatrix._1.toString())
+            .isEqualTo("#.##.\n"
+                + "#...#\n"
+                + ".....\n"
+                + "#...#\n"
+                + ".#.#.\n"
+                + ".....\n"
+                + ".....\n");
+        assertThat(twoMatrix._2.toString())
+            .isEqualTo("#..#.\n"
+                + ".....\n"
+                + "#...#\n"
+                + ".....\n"
+                + "#.###\n"
+                + ".....\n"
+                + ".....\n");
+    }
+
+    @Test
     void merge() {
         final var vals = InputReader.readAsIntegerMatrix("/example/number_matrix.txt");
         final var vals2 = InputReader.readAsIntegerMatrix("/example/number_matrix.txt");
