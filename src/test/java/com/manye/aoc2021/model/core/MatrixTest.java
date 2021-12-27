@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.manye.aoc2021.input.InputReader;
 
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -35,6 +36,51 @@ class MatrixTest {
 
         assertThat(result).isEqualTo(value);
     }
+
+    @Test
+    void transposeVertically() {
+        final var vals = InputReader.readAsStringMatrix("/example/letter_matrix.txt");
+        final Matrix<String> matrix = new Matrix<>(vals);
+
+        final var newMatrix = matrix.transposeVertical();
+
+        assertThat(newMatrix.toString()).isEqualTo(
+            "PKRST\n"
+                + "KLMNO\n"
+                + "FGHIJ\n"
+                + "ABCDE\n");
+    }
+
+    @Test
+    void transposeHorizontally() {
+        final var vals = InputReader.readAsStringMatrix("/example/letter_matrix.txt");
+        final Matrix<String> matrix = new Matrix<>(vals);
+
+        final var newMatrix = matrix.transposeHorizontally();
+
+        assertThat(newMatrix.toString()).isEqualTo(
+            "EDCBA\n"
+                + "JIHGF\n"
+                + "ONMLK\n"
+                + "TSRKP\n");
+    }
+
+    @Test
+    void merge() {
+        final var vals = InputReader.readAsIntegerMatrix("/example/number_matrix.txt");
+        final var vals2 = InputReader.readAsIntegerMatrix("/example/number_matrix.txt");
+        final Matrix<Integer> matrix = new Matrix<>(vals);
+        final Matrix<Integer> matrix2 = new Matrix<>(vals2);
+
+        final var newMatrix = matrix.merge(matrix2, Integer::sum);
+
+        assertThat(newMatrix.toString()).isEqualTo(
+            "24680\n"
+                + "86420\n"
+                + "46802\n"
+                + "04682\n");
+    }
+
 
     private static Stream<Arguments> provideCoordinates() {
         return Stream.of(

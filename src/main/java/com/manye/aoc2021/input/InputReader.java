@@ -59,6 +59,12 @@ public final class InputReader {
             .toArray(Integer[][]::new);
     }
 
+    public static String[][] readAsStringMatrix(String resourcePath) {
+        return readLines(resourcePath)
+            .map(line -> Stream.of(line.split("")).toArray(String[]::new))
+            .toArray(String[][]::new);
+    }
+
     public static Graph<String> readAsGraphString(String resourcePath) {
         final Map<String, Set<String>> init = new HashMap<>();
         final Map<String, Set<String>> temp = readLines(resourcePath)
@@ -126,6 +132,5 @@ public final class InputReader {
             .map(InputParser::parseDisplayNote)
             .collect(Collectors.toList());
     }
-
 
 }

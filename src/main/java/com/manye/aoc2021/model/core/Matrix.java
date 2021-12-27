@@ -4,11 +4,13 @@ import static java.util.Collections.emptyList;
 
 import lombok.Value;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -153,6 +155,39 @@ public class Matrix<T> {
             .range(0, matrix.length)
             .boxed()
             .flatMap(y -> IntStream.range(0, matrix[y].length).mapToObj(x -> Coordinate.of(x, y)));
+    }
+
+    @SuppressWarnings("unchecked")
+    public Matrix<T> transposeVertical() {
+        final var height = matrix.length;
+        final T[][] newMatrix = (T[][]) Array.newInstance(matrix[0][0].getClass(), matrix.length, matrix[0].length);
+        stream().forEach(entry -> {
+            final var c = entry.getCoordinate();
+            newMatrix[(height - c.getY()) - 1][c.getX()] = entry.getValue();
+        });
+        return new Matrix<>(newMatrix);
+    }
+
+    @SuppressWarnings("unchecked")
+    public Matrix<T> transposeHorizontally() {
+        final var width = matrix[0].length;
+        final T[][] newMatrix = (T[][]) Array.newInstance(matrix[0][0].getClass(), matrix.length, matrix[0].length);
+        stream().forEach(entry -> {
+            final var c = entry.getCoordinate();
+            newMatrix[c.getY()][(width - c.getX()) - 1] = entry.getValue();
+        });
+        return new Matrix<>(newMatrix);
+    }
+
+    @SuppressWarnings("unchecked")
+    public Matrix<T> merge(Matrix<T> other, BiFunction<T, T, T> mergeValues) {
+        final var width = matrix[0].length;
+        final T[][] newMatrix = (T[][]) Array.newInstance(matrix[0][0].getClass(), matrix.length, matrix[0].length);
+        stream().forEach(entry -> {
+            final var c = entry.getCoordinate();
+            newMatrix[c.getY()][c.getX()] = mergeValues.apply(entry.getValue(), other.getValue(c));
+        });
+        return new Matrix<>(newMatrix);
     }
 
     @Override
