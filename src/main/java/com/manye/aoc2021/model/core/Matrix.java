@@ -32,6 +32,11 @@ public class Matrix<T> {
         this.matrix = matrix;
     }
 
+    public Matrix(T[][] matrix, T initValue) {
+        this.matrix = matrix;
+        init(initValue);
+    }
+
     public List<T> getAdjacentValues(Coordinate coordinate) {
         return getAdjacentValues(coordinate.getX(), coordinate.getY());
     }
@@ -229,6 +234,12 @@ public class Matrix<T> {
 
     private int getWidth() {
         return matrix[0].length;
+    }
+
+    public void init(T value) {
+        streamCoordinates().forEach(coordinate -> {
+            set(coordinate, (current) -> value);
+        });
     }
 
     @SuppressWarnings("unchecked")
