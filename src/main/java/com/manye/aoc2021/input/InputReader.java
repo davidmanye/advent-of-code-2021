@@ -2,12 +2,17 @@ package com.manye.aoc2021.input;
 
 import static java.util.stream.Collectors.toList;
 
+import com.google.common.collect.Sets;
+
 import com.manye.aoc2021.model.Command;
 import com.manye.aoc2021.model.DiagnosticReport;
 import com.manye.aoc2021.model.bingo.BingoBoard;
 import com.manye.aoc2021.model.bingo.BingoSubsystem;
+import com.manye.aoc2021.model.core.Graph;
 import com.manye.aoc2021.model.core.LineSegment;
 import com.manye.aoc2021.model.display.DisplayNote;
+import com.manye.aoc2021.utils.CollectionUtils;
+import com.manye.aoc2021.utils.MapUtils;
 import com.manye.aoc2021.utils.StreamUtils;
 
 import org.apache.commons.io.IOUtils;
@@ -17,8 +22,10 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.Map;
+import java.util.Set;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -52,10 +59,20 @@ public final class InputReader {
             .toArray(Integer[][]::new);
     }
 
-    public static AtomicInteger[][] readAsAtomicIntegerMatrix(String resourcePath) {
-        return readLines(resourcePath)
-            .map(line -> Stream.of(line.split("")).map(Integer::valueOf).map(AtomicInteger::new).toArray(AtomicInteger[]::new))
-            .toArray(AtomicInteger[][]::new);
+    public static Graph<String> readAsGraphString(String resourcePath) {
+        final Map<String, Set<String>> init = new HashMap<>();
+        final Map<String, Set<String>> temp = readLines(resourcePath)
+            .map(line -> line.split("-"))
+            .reduce(init,
+                (map, connection) -> {
+                    final var v1 = connection[0];
+                    final var v2 = connection[1];
+                    map.compute(v1, (k, v) -> v == null ? Sets.newHashSet(v2) : CollectionUtils.add(v, v2));
+                    map.compute(v2, (k, v) -> v == null ? Sets.newHashSet(v1) : CollectionUtils.add(v, v1));
+                    return map;
+                },
+                (m1, m2) -> MapUtils.merge(m1, m2, CollectionUtils::merge));
+        return new Graph<>(temp);
     }
 
     public static List<Command> reasAsCommands(String resourcePath) {
@@ -109,7 +126,6 @@ public final class InputReader {
             .map(InputParser::parseDisplayNote)
             .collect(Collectors.toList());
     }
-
 
 
 }

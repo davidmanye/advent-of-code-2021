@@ -1,14 +1,8 @@
 package com.manye.aoc2021.model.core;
 
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.Value;
 
-@AllArgsConstructor
-@Getter
-@ToString
-@EqualsAndHashCode(of = { "x", "y" })
+@Value
 public class Coordinate {
 
     int x;

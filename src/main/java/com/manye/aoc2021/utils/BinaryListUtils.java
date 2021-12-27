@@ -11,8 +11,6 @@ import java.util.stream.Collectors;
 
 public final class BinaryListUtils {
 
-
-
     public static final BiFunction<Integer, Integer, Integer> MAX = (zeroSize, oneSize) -> zeroSize > oneSize ? ZERO : ONE;
     public static final BiFunction<Integer, Integer, Integer> MIN = (zeroSize, oneSize) -> zeroSize < oneSize ? ZERO : ONE;
 
