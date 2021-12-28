@@ -37,6 +37,12 @@ public class Matrix<T> {
         init(initValue);
     }
 
+    public MatrixDijkstraState<T> calculateCostsFrom(Coordinate start, Function<Entry, Long> costsFunction) {
+        final var table = new MatrixDijkstraState<>(this);
+        table.calculateCosts(start, costsFunction, entry -> this.getAdjacent(entry.getCoordinate()));
+        return table;
+    }
+
     public List<T> getAdjacentValues(Coordinate coordinate) {
         return getAdjacentValues(coordinate.getX(), coordinate.getY());
     }
@@ -120,6 +126,10 @@ public class Matrix<T> {
             return 0 <= x && x < matrix[y].length;
         }
         return false;
+    }
+
+    public Entry getEntry(Coordinate coordinate) {
+        return getEntryIfExists(coordinate).orElseThrow();
     }
 
     public Optional<Entry> getEntryIfExists(Coordinate coordinate) {
@@ -228,11 +238,11 @@ public class Matrix<T> {
         return newInstance(getWidth(), getHeight());
     }
 
-    private int getHeight() {
+    public int getHeight() {
         return matrix.length;
     }
 
-    private int getWidth() {
+    public int getWidth() {
         return matrix[0].length;
     }
 

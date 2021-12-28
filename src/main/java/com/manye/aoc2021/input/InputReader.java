@@ -10,6 +10,7 @@ import com.manye.aoc2021.model.bingo.BingoBoard;
 import com.manye.aoc2021.model.bingo.BingoSubsystem;
 import com.manye.aoc2021.model.core.Graph;
 import com.manye.aoc2021.model.core.LineSegment;
+import com.manye.aoc2021.model.core.Matrix;
 import com.manye.aoc2021.model.display.DisplayNote;
 import com.manye.aoc2021.model.polymer.Polymer;
 import com.manye.aoc2021.utils.CollectionUtils;
@@ -58,6 +59,10 @@ public final class InputReader {
         return readLines(resourcePath)
             .map(line -> Stream.of(line.split("")).map(Integer::valueOf).toArray(Integer[]::new))
             .toArray(Integer[][]::new);
+    }
+
+    public static Matrix<Integer> readMatrixOfIntegers(String resourcePath) {
+        return new Matrix<>(readAsIntegerMatrix(resourcePath));
     }
 
     public static String[][] readAsStringMatrix(String resourcePath) {
