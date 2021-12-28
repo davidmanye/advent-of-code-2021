@@ -7,6 +7,7 @@ import com.manye.aoc2021.model.bingo.BingoBoard;
 import com.manye.aoc2021.model.core.Coordinate;
 import com.manye.aoc2021.model.core.LineSegment;
 import com.manye.aoc2021.model.display.DisplayNote;
+import com.manye.aoc2021.model.polymer.InsertionRule;
 
 import java.util.Arrays;
 import java.util.List;
@@ -48,5 +49,10 @@ public final class InputParser {
             .map(String::trim)
             .filter(not(String::isBlank))
             .collect(Collectors.toList());
+    }
+
+    public static InsertionRule parseInsertionRule(String line) {
+        final var split = line.split(" -> ");
+        return new InsertionRule(split[0].trim(), split[1].trim());
     }
 }

@@ -11,6 +11,7 @@ import com.manye.aoc2021.model.bingo.BingoSubsystem;
 import com.manye.aoc2021.model.core.Graph;
 import com.manye.aoc2021.model.core.LineSegment;
 import com.manye.aoc2021.model.display.DisplayNote;
+import com.manye.aoc2021.model.polymer.Polymer;
 import com.manye.aoc2021.utils.CollectionUtils;
 import com.manye.aoc2021.utils.MapUtils;
 import com.manye.aoc2021.utils.StreamUtils;
@@ -131,6 +132,10 @@ public final class InputReader {
         return readLines(resourcePath)
             .map(InputParser::parseDisplayNote)
             .collect(Collectors.toList());
+    }
+
+    public static Polymer readPolymer(String resourcePath) {
+        return Polymer.fromInput(readAll(resourcePath));
     }
 
 }
